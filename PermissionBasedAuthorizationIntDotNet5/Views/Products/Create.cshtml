@@ -1,0 +1,52 @@
+﻿@inject IAuthorizationService AuthorizationService
+@using PermissionBasedAuthorizationIntDotNet5.Contants
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<form asp-action="Create" enctype="multipart/form-data" class="form-control">
+
+    @if (AuthorizationService.AuthorizeAsync(User, Permissions.Products.FirstNamePro).Result.Succeeded && Model == null)
+    {
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label class="control-label">FirstName</label>
+            <input readonly class="form-control" type="text" />
+        </div>
+     }
+      else
+      {
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label class="control-label">FirstName</label>
+            <input class="form-control" type="text" />
+        </div>
+    }
+    @if (AuthorizationService.AuthorizeAsync(User, Permissions.Products.LastNamePro).Result.Succeeded)
+    {
+        <div class="form-group">
+            <label class="control-label">LastName</label>
+            <input class="form-control" type="text" />
+        </div>
+    }
+    @if (AuthorizationService.AuthorizeAsync(User, Permissions.Products.PhonePro).Result.Succeeded)
+    {
+        <div class="form-group">
+            <label class="control-label">Phone</label>
+            <input class="form-control" type="number" />
+        </div>
+    }
+    @if (AuthorizationService.AuthorizeAsync(User, Permissions.Products.FilePro).Result.Succeeded)
+    {
+        <div class="form-group">
+            <label class="control-label">Upload File</label>
+            <input type="file" name="File" class="form-control" />
+            <span class="text-danger"></span>
+        </div>
+    }
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
